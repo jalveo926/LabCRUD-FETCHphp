@@ -5,9 +5,13 @@ ListarProductos();
 // Listar productos
 function ListarProductos(busqueda = "") {
 
-    fetch("listar.php", {
+    let datos = new FormData();
+    datos.append("Accion", "Listar");
+    datos.append("busqueda", busqueda);
+
+    fetch("controlador.php", {
         method: "POST",
-        body: busqueda
+        body: datos
     })
     .then(response => response.text())
     .then(response => {
@@ -23,7 +27,7 @@ btnAccion.addEventListener("click", () => {
 
     let datos = new FormData(frm);
 
-    fetch("registrar.php", {
+    fetch("controlador.php", {
         method: "POST",
         body: datos
     })
@@ -87,9 +91,13 @@ function Eliminar(id) {
 
         if (result.isConfirmed) {
 
-            fetch("eliminar.php", {
+            let datos = new FormData();
+            datos.append("Accion", "Eliminar");
+            datos.append("id", id);
+
+            fetch("controlador.php", {
                 method: "POST",
-                body: id
+                body: datos
             })
             .then(response => response.text())
             .then(response => {
@@ -119,9 +127,13 @@ function Eliminar(id) {
 //Editar producto
 function Editar(id) {
 
-    fetch("editar.php", {
+    let datos = new FormData();
+    datos.append("Accion", "Editar");
+    datos.append("id", id);
+
+    fetch("controlador.php", {
         method: "POST",
-        body: id
+        body: datos
     })
     .then(response => response.json())
     .then(response => {

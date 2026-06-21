@@ -98,37 +98,53 @@ class Producto {
         return $query->execute();
     }
 
-    // Eliminar producto 
+    // Eliminar producto
     public function eliminar($id) {
+
         $query = $this->conexion->prepare(
             "DELETE FROM productos WHERE id = :id"
         );
 
         $query->bindParam(":id", $id);
 
-        return $query->execute() ? "ok" : "error";
+        return $query->execute();
     }
 
-    // Buscar/Listar productos 
+    // Buscar un producto por id (para editar.php)
+    public function buscarPorId($id) {
+
+        $query = $this->conexion->prepare(
+            "SELECT * FROM productos WHERE id = :id"
+        );
+
+        $query->bindParam(":id", $id);
+        $query->execute();
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Buscar/Listar productos
     public function buscar($filtro = "") {
 
         if ($filtro == "") {
+
             $consulta = $this->conexion->prepare(
                 "SELECT * FROM productos ORDER BY id DESC"
             );
+
+            $consulta->execute();
+
         } else {
+
             $consulta = $this->conexion->prepare(
-                "SELECT * FROM productos 
-                 WHERE id LIKE :filtro 
-                 OR producto LIKE :filtro 
-                 OR precio LIKE :filtro"
+                "SELECT * FROM productos
+                 WHERE id LIKE '%".$filtro."%'
+                 OR producto LIKE '%".$filtro."%'
+                 OR precio LIKE '%".$filtro."%'"
             );
 
-            $busqueda = "%".$filtro."%";
-            $consulta->bindParam(":filtro", $busqueda);
+            $consulta->execute();
         }
-
-        $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
