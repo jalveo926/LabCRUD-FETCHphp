@@ -158,16 +158,19 @@ function Editar(id) {
 //Buscar productos
 buscar.addEventListener("keyup", () => {
 
-    let valor = buscar.value;
+    let valor = buscar.value.trim();
 
-    if (valor === "") {
+    switch (valor) {
 
-        ListarProductos();
+        case "":
 
-    } else {
+            ListarProductos();
+            break;
 
-        ListarProductos(valor);
+        default:
 
+            ListarProductos(valor);
+            break;
     }
 
 });
